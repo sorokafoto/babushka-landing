@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Babushka — только важное</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Geologica:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sand: #F5F0E8;
+    --sand-dark: #E8E0D0;
+    --ink: #1A1714;
+    --ink-mid: #3D3830;
+    --ink-muted: #6B6560;
+    --warm-white: #FDFAF5;
+    --accent: #7C5C3E;
+    --accent-light: #C4A882;
+    --accent-pale: #EDE3D6;
+    --green: #3D5C3A;
+    --green-light: #EBF0EA;
+    --border: rgba(26,23,20,0.12);
+    --border-strong: rgba(26,23,20,0.22);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Geologica', system-ui, sans-serif;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 32px;
+    --shadow-soft: 0 24px 70px rgba(33, 26, 18, 0.09);
+    --shadow-card: 0 18px 45px rgba(44, 32, 20, 0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background:
+      radial-gradient(circle at top left, rgba(237,227,214,0.85), transparent 34%),
+      linear-gradient(180deg, #fffdf9 0%, var(--warm-white) 38%, #f8f2ea 100%);
+    color: var(--ink);
+    line-height: 1.7;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(253,250,245,0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    border-radius: 100px;
+    padding: 9px 22px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .nav-cta:hover { background: var(--ink-mid); }
+  .nav-cta:active { transform: scale(0.98); }
+
+  /* SECTIONS */
+  section { padding: 100px 2rem; }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .container-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 720px;
+  }
+
+  /* TYPOGRAPHY */
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(44px, 7vw, 80px);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4.5vw, 52px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink-mid);
+    font-weight: 300;
+  }
+
+  p + p { margin-top: 1rem; }
+
+  .lead {
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--ink-mid);
+    font-weight: 300;
+    max-width: 600px;
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    border-radius: 100px;
+    padding: 16px 36px;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--ink-mid); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border-strong);
+    border-radius: 100px;
+    padding: 15px 32px;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.1s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); background: var(--sand); }
+  .btn-secondary:active { transform: scale(0.98); }
+
+  .btn-group {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 2.5rem;
+  }
+
+  /* ——— HERO ——— */
+  #hero {
+    padding-top: 140px;
+    padding-bottom: 100px;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-pale) 0%, transparent 65%);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    left: -160px;
+    bottom: -120px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(61,92,58,0.14) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 1.75rem 0 0;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.68);
+    border: 1px solid rgba(26,23,20,0.08);
+    color: var(--ink-mid);
+    font-size: 14px;
+    font-weight: 400;
+    box-shadow: 0 10px 24px rgba(26,23,20,0.05);
+  }
+
+  .hero-badge strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .hero-caption {
+    margin-top: 2rem;
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  .hero-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    min-height: 0;
+  }
+
+  /* Телефон + декоративная подложка — отдельно от текстовых карточек, без наложений */
+  .hero-phone-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    min-height: 560px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .hero-panel {
+    position: absolute;
+    inset: 32px 6px 0 6px;
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.9), rgba(245,240,232,0.9)),
+      var(--warm-white);
+    border: 1px solid rgba(26,23,20,0.08);
+    box-shadow: var(--shadow-soft);
+    pointer-events: none;
+  }
+
+  .phone-frame {
+    width: 286px;
+    height: 560px;
+    border: 1.5px solid rgba(26,23,20,0.12);
+    border-radius: 42px;
+    padding: 12px;
+    background: linear-gradient(180deg, #fdfcf9, #f1e7d8);
+    position: relative;
+    z-index: 1;
+    transform: rotate(3deg);
+    box-shadow: 0 35px 90px rgba(0,0,0,0.14);
+    flex-shrink: 0;
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top left, rgba(255,255,255,0.95), transparent 28%),
+      linear-gradient(180deg, #f7f0e7 0%, #efe2d1 100%);
+    /* меньше отступов — больше площадь под скриншот при object-fit: contain */
+    padding: 6px 6px 8px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .phone-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top center;
+    display: block;
+  }
+
+  .phone-notch {
+    width: 96px;
+    height: 18px;
+    border-radius: 0 0 12px 12px;
+    background: rgba(26,23,20,0.82);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .screen-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .screen-pill-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .screen-pill {
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.62);
+    border: 1px solid rgba(26,23,20,0.07);
+    font-size: 12px;
+    color: var(--ink-mid);
+  }
+
+  .screen-title {
+    margin-top: 18px;
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+
+  .screen-subtitle {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    max-width: 220px;
+  }
+
+  .contact-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .contact-card {
+    display: grid;
+    grid-template-columns: 54px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(26,23,20,0.08);
+    box-shadow: 0 10px 24px rgba(76, 58, 35, 0.06);
+  }
+
+  .contact-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #d8b693, #b27d57);
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+
+  .contact-meta strong {
+    display: block;
+    font-size: 18px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .contact-meta span {
+    display: block;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  .contact-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    background: #fff7ee;
+    color: var(--accent);
+    border: 1px solid rgba(124,92,62,0.16);
+    font-weight: 500;
+  }
+
+  .contact-card.is-highlighted {
+    background: linear-gradient(180deg, rgba(255,249,241,0.95), rgba(247,235,218,0.88));
+    transform: translateX(8px);
+  }
+
+  .contact-card.is-highlighted .contact-action {
+    background: var(--accent);
+    color: var(--warm-white);
+  }
+
+  .hero-floating-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .floating-note,
+  .floating-stats {
+    position: relative;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid rgba(26,23,20,0.08);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(10px);
+    width: auto;
+    max-width: none;
+  }
+
+  .floating-note {
+    padding: 16px 18px;
+  }
+
+  .floating-note p {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+  }
+
+  .floating-note strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .floating-stats {
+    padding: 18px;
+  }
+
+  .stat-kicker {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .stat-row:last-child { border-bottom: none; }
+
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--ink);
+  }
+
+  .stat-label {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-muted);
+    text-align: right;
+  }
+
+  .proof-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 3.5rem;
+  }
+
+  .proof-card {
+    padding: 22px 24px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(26,23,20,0.08);
+    box-shadow: 0 14px 32px rgba(26,23,20,0.05);
+  }
+
+  .proof-card strong {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .proof-card p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+
+  /* ——— PROBLEM ——— */
+  #problem { background: linear-gradient(180deg, rgba(245,240,232,0.8), rgba(245,240,232,1)); }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    padding: 1.5rem 2rem;
+    background: var(--accent-pale);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 2rem 0;
+  }
+  .callout p {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .cycle-list {
+    list-style: none;
+    margin-top: 1.5rem;
+  }
+  .cycle-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 16px;
+    color: var(--ink-mid);
+  }
+  .cycle-list li:last-child { border-bottom: none; }
+  .cycle-num {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent-pale);
+    border: 1px solid var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  /* ——— WHY FAIL ——— */
+  #why-fail { background: var(--warm-white); }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 3rem;
+  }
+
+  .compare-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    background: var(--warm-white);
+    box-shadow: 0 14px 30px rgba(26,23,20,0.04);
+  }
+
+  .compare-card.highlighted {
+    border-color: var(--accent);
+    background: var(--accent-pale);
+  }
+
+  .compare-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--ink-muted);
+  }
+  .compare-card.highlighted .compare-label {
+    color: var(--accent);
+  }
+
+  .feature-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 1rem;
+    font-size: 15px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+
+  .icon-x { color: #B5451A; font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .icon-check { color: var(--green); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ——— SOLUTION ——— */
+  #solution { background: var(--ink); color: var(--warm-white); }
+  #solution h2 { color: var(--warm-white); }
+  #solution .lead { color: rgba(253,250,245,0.75); }
+  #solution p { color: rgba(253,250,245,0.75); }
+  #solution .eyebrow { color: var(--accent-light); }
+
+  .solution-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  .demo-stage {
+    position: relative;
+    min-height: 460px;
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 35%),
+      linear-gradient(180deg, rgba(253,250,245,0.06), rgba(124,92,62,0.1));
+    border: 1px solid rgba(253,250,245,0.12);
+    overflow: hidden;
+  }
+
+  .demo-stage::before {
+    content: '';
+    position: absolute;
+    inset: 22px;
+    border-radius: 26px;
+    border: 1px solid rgba(253,250,245,0.08);
+  }
+
+  .demo-window {
+    position: absolute;
+    inset: 34px;
+    border-radius: 26px;
+    background: linear-gradient(180deg, #fff5eb, #f2dfc8);
+    padding: 20px;
+    color: var(--ink);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+
+  .concept-stage-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    filter: drop-shadow(0 24px 40px rgba(0,0,0,0.18));
+  }
+
+  .demo-window h3 {
+    font-size: 28px;
+    margin-bottom: 0.5rem;
+  }
+
+  .demo-window p {
+    color: var(--ink-muted);
+    font-size: 14px;
+    max-width: 260px;
+  }
+
+  .demo-message {
+    margin-top: 24px;
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.62);
+    border: 1px solid rgba(26,23,20,0.08);
+  }
+
+  .demo-message strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .demo-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .demo-action {
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(26,23,20,0.08);
+    font-size: 14px;
+    color: var(--ink-mid);
+  }
+
+  .demo-action strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .demo-float {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(26,23,20,0.92);
+    color: rgba(253,250,245,0.9);
+    min-width: 180px;
+  }
+
+  .demo-float strong {
+    display: block;
+    color: var(--warm-white);
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+
+  .demo-float span {
+    display: block;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(253,250,245,0.65);
+  }
+
+  .solution-feature {
+    padding: 1.5rem 0;
+    border-bottom: 0.5px solid rgba(253,250,245,0.12);
+  }
+  .solution-feature:first-child { padding-top: 0; }
+  .solution-feature:last-child { border-bottom: none; }
+  .solution-feature h3 { font-size: 18px; color: var(--warm-white); margin-bottom: 0.4rem; }
+  .solution-feature p { font-size: 15px; color: rgba(253,250,245,0.65); }
+
+  /* ——— HOW IT WORKS ——— */
+  #how { background: var(--sand); }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 3rem;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 26px;
+    top: 32px;
+    bottom: 32px;
+    width: 1px;
+    background: var(--border-strong);
+  }
+
+  .step {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    padding: 2rem 0;
+    position: relative;
+  }
+
+  .step-num {
+    width: 52px; height: 52px; flex-shrink: 0;
+    background: var(--warm-white);
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    position: relative;
+    z-index: 1;
+  }
+
+  .step:last-child .step-num {
+    background: var(--ink);
+    color: var(--warm-white);
+    border-color: var(--ink);
+  }
+
+  .step-content h3 {
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+    padding-top: 12px;
+  }
+  .step-content p { font-size: 16px; color: var(--ink-muted); }
+
+  /* ——— SCREENS ——— */
+  #screens { background: var(--warm-white); }
+
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 3rem;
+  }
+
+  .screen-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: rgba(255,255,255,0.82);
+    box-shadow: 0 16px 40px rgba(26,23,20,0.05);
+  }
+
+  .screen-visual {
+    height: 280px;
+  }
+
+  .screen-preview {
+    height: 100%;
+    border-bottom: 0.5px solid var(--border);
+    background: linear-gradient(180deg, #fbf5ed, #efe2d2);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .screen-preview.image-shot {
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at top, rgba(255,255,255,0.7), transparent 36%),
+      linear-gradient(180deg, #f7efe5, #eee0cf);
+  }
+
+  .screen-preview.image-shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+  }
+
+  .mini-topline {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .mini-chip-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .mini-chip {
+    padding: 7px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(26,23,20,0.06);
+    font-size: 11px;
+    color: var(--ink-mid);
+  }
+
+  .mini-card {
+    border-radius: 18px;
+    padding: 14px;
+    background: rgba(255,255,255,0.76);
+    border: 1px solid rgba(26,23,20,0.08);
+  }
+
+  .mini-card strong {
+    display: block;
+    font-size: 16px;
+    color: var(--ink);
+  }
+
+  .mini-card span {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .mini-message {
+    align-self: flex-start;
+    max-width: 88%;
+    padding: 12px 14px;
+    border-radius: 18px 18px 18px 6px;
+    background: rgba(255,255,255,0.76);
+    border: 1px solid rgba(26,23,20,0.06);
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.45;
+  }
+
+  .mini-dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mini-stat {
+    padding: 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.76);
+    border: 1px solid rgba(26,23,20,0.08);
+  }
+
+  .mini-stat strong {
+    display: block;
+    font-size: 17px;
+    color: var(--ink);
+  }
+
+  .mini-stat span {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  .screen-info {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .screen-info h3 {
+    font-size: 17px;
+    margin-bottom: 0.3rem;
+  }
+  .screen-info p {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* ——— BENEFITS ——— */
+  #benefits { background: var(--sand); }
+
+  .benefits-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 3rem;
+  }
+
+  .benefits-col-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.5px solid var(--border-strong);
+  }
+
+  .benefit-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .benefit-item:last-child { border-bottom: none; }
+
+  .benefit-dot {
+    width: 8px; height: 8px; flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 8px;
+  }
+
+  .benefit-item p { font-size: 15px; color: var(--ink-mid); line-height: 1.55; }
+
+  /* ——— NOT ——— */
+  #not { background: var(--warm-white); }
+
+  .not-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 3rem;
+  }
+
+  .not-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    background: var(--warm-white);
+    box-shadow: 0 12px 28px rgba(26,23,20,0.04);
+  }
+
+  .not-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 100px;
+    padding: 4px 12px;
+    margin-bottom: 1rem;
+  }
+
+  .not-card h3 { font-size: 17px; margin-bottom: 0.6rem; }
+  .not-card p { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+
+  /* ——— FAQ ——— */
+  #faq { background: var(--sand); }
+
+  .faq-list {
+    margin-top: 3rem;
+    max-width: 720px;
+  }
+
+  .faq-item {
+    border-bottom: 0.5px solid var(--border-strong);
+  }
+
+  .faq-q {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 1.5rem 0;
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .faq-q:hover { color: var(--accent); }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 0.5px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.25s, background 0.2s;
+    margin-top: 2px;
+  }
+  .faq-chevron svg { display: block; transition: transform 0.25s; }
+
+  .faq-item.open .faq-chevron { background: var(--accent); border-color: var(--accent); }
+  .faq-item.open .faq-chevron svg { transform: rotate(180deg); }
+  .faq-item.open .faq-chevron svg path { stroke: var(--warm-white); }
+
+  .faq-a {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+  }
+  .faq-a-inner {
+    padding-bottom: 1.5rem;
+    font-size: 16px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+  }
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  /* ——— FEATURES (BOTTOM BLOCK) ——— */
+  #blog { background: var(--warm-white); }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 3rem;
+  }
+
+  .feature-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.9rem;
+    background: rgba(255,255,255,0.82);
+    box-shadow: 0 16px 40px rgba(26,23,20,0.05);
+  }
+
+  .feature-card h3 { margin-bottom: 0.6rem; }
+
+  .feature-card p {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+
+  /* ——— CTA FINAL ——— */
+  #final-cta {
+    background: var(--ink);
+    color: var(--warm-white);
+    text-align: center;
+  }
+  #final-cta h2 { color: var(--warm-white); max-width: 700px; margin: 0 auto 1.5rem; }
+  #final-cta p { color: rgba(253,250,245,0.65); max-width: 520px; margin: 0 auto; }
+
+  .final-cta-inner { text-align: center; }
+
+  .final-cta-inner .btn-group { justify-content: center; margin-top: 2.5rem; }
+
+  .cta-panel {
+    padding: 44px;
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid rgba(253,250,245,0.1);
+    box-shadow: 0 28px 80px rgba(0,0,0,0.15);
+  }
+
+  .btn-outline-light {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: rgba(253,250,245,0.8);
+    border: 1px solid rgba(253,250,245,0.25);
+    border-radius: 100px;
+    padding: 15px 32px;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline-light:hover { border-color: rgba(253,250,245,0.6); color: var(--warm-white); }
+
+  .microcopy {
+    margin-top: 1.25rem;
+    font-size: 13px;
+    color: rgba(253,250,245,0.4);
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  /* ——— FOOTER ——— */
+  footer {
+    background: var(--ink);
+    border-top: 0.5px solid rgba(253,250,245,0.1);
+    padding: 2rem;
+    text-align: center;
+  }
+  footer p {
+    font-size: 13px;
+    color: rgba(253,250,245,0.3);
+  }
+  footer .footer-logo {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: rgba(253,250,245,0.6);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  /* DIVIDER */
+  .section-rule {
+    width: 48px; height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    section { padding: 70px 1.25rem; }
+    .hero-inner, .problem-grid, .solution-grid, .compare-grid,
+    .benefits-cols, .not-grid, .screens-grid, .proof-strip { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 38px; }
+    h2 { font-size: 30px; }
+    .not-grid { grid-template-columns: 1fr 1fr; }
+    .steps::before { left: 26px; }
+    .hero-phone-wrap {
+      min-height: 540px;
+    }
+    .hero-panel {
+      inset: 40px 0 0 0;
+    }
+    .hero-floating-cards {
+      grid-template-columns: 1fr;
+    }
+    .cta-panel { padding: 32px 22px; }
+  }
+
+  @media (max-width: 520px) {
+    .not-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; height: 56px; }
+    .nav-cta { padding: 8px 16px; font-size: 13px; }
+    .phone-frame { width: 100%; max-width: 290px; height: 548px; }
+    .hero-caption { max-width: 280px; }
+    .demo-actions, .mini-dashboard { grid-template-columns: 1fr; }
+  }
+
+  /* ANIMATION */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in {
+    animation: fadeUp 0.7s ease both;
+  }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.35s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Babushk<span>a</span></div>
+  <a href="#final-cta" class="nav-cta">Попробовать бесплатно</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container-wide">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow animate-in">Android-оболочка для пожилого человека</p>
+        <h1 class="animate-in delay-1">Телефон,<br>в котором<br>только<br>близкие</h1>
+        <p class="lead animate-in delay-2">Babushka превращает обычный Android в спокойную, предсказуемую среду: без лишних приложений, сложных меню и повторных объяснений.</p>
+        <div class="btn-group animate-in delay-3">
+          <a href="#final-cta" class="btn-primary">Попробовать бесплатно — 14 дней</a>
+          <a href="#how" class="btn-secondary">Как это работает</a>
+        </div>
+      </div>
+
+      <div class="hero-visual animate-in delay-2">
+        <div class="hero-phone-wrap">
+          <div class="hero-panel" aria-hidden="true"></div>
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <img class="phone-image" src="Концепты/Home.png" alt="Главный экран приложения Babushka">
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proof-strip animate-in delay-3">
+      <div class="proof-card">
+        <strong>Стабильный интерфейс</strong>
+        <p>Пожилой человек видит один и тот же экран, даже если Android или мессенджеры обновились.</p>
+      </div>
+      <div class="proof-card">
+        <strong>Настроили один раз</strong>
+        <p>Контакты, действия и приоритеты задаются заранее и не меняются случайно.</p>
+      </div>
+      <div class="proof-card">
+        <strong>Спокойствие для семьи</strong>
+        <p>Меньше срочных звонков “что-то сломалось”, меньше поездок, больше уверенности у всех.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Настоящая проблема</p>
+      <div class="section-rule"></div>
+      <h2>Дело в предсказуемости</h2>
+      <p class="lead">Один раз разобрались — всё работает. Потом приходит обновление, и снова: «у меня всё пропало».</p>
+    </div>
+
+    <div class="problem-grid">
+      <div>
+        <p>Проблема в том, что у каждого приложения — свои правила, а сам телефон постоянно меняется: переехали кнопки, обновился экран. Каждый раз приходится привыкать заново.</p>
+
+        <div class="callout">
+          <p>Хочется пользоваться телефоном спокойно: не тратить время на «обновки», не разбираться заново и не просить помощи.</p>
+        </div>
+
+        <p>Нужна среда, которая изо дня в день выглядит одинаково: те же действия, на тех же местах, даже после обновлений ОС и приложений.</p>
+      </div>
+
+      <div>
+        <p style="font-size:15px; color: var(--ink-muted); margin-bottom:0.5rem; font-weight:500;">Знакомый цикл:</p>
+        <ul class="cycle-list">
+          <li>
+            <span class="cycle-num">1</span>
+            Настроили телефон, объяснили — всё работает
+          </li>
+          <li>
+            <span class="cycle-num">2</span>
+            Обновился WhatsApp — другая иконка, новый интерфейс
+          </li>
+          <li>
+            <span class="cycle-num">3</span>
+            Обновился Android — переехали кнопки, изменился экран
+          </li>
+          <li>
+            <span class="cycle-num">4</span>
+            Звонок: «Снова всё поменялось, помоги»
+          </li>
+          <li>
+            <span class="cycle-num">5</span>
+            Объяснять заново. Ехать. Снова обучать.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY FAIL -->
+<section id="why-fail">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Почему обычные решения не работают</p>
+      <div class="section-rule"></div>
+      <h2>Крупнее — не значит понятнее</h2>
+      <p class="lead">Большинство «простых лаунчеров» увеличивают иконки, но не убирают настоящую причину проблемы.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <p class="compare-label">Обычные Senior Launchers</p>
+        <div class="feature-row">
+          <span class="icon-x">✕</span>
+          <span>Всё равно показывают стандартный набор приложений. Они могут отвлекать от важного и мешают сделать простое действие</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-x">✕</span>
+          <span>Разные приложения — разные правила. В каждом свои кнопки и меню, к каждому нужно привыкать отдельно</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-x">✕</span>
+          <span>Даже чтобы написать сообщение, часто нужно разбираться в «архитектуре» приложения: где входящие, где меню, что нажать дальше</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-x">✕</span>
+          <span>Нет удалённого управления: чтобы что-то изменить, нужен физический доступ к телефону</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-x">✕</span>
+          <span>Незнакомые уведомления и контакты могут появляться сами по себе</span>
+        </div>
+      </div>
+
+      <div class="compare-card highlighted">
+        <p class="compare-label">Babushka</p>
+        <div class="feature-row">
+          <span class="icon-check">✓</span>
+          <span>Никаких приложений — только действия. Близкий человек видит людей, а не программы</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-check">✓</span>
+          <span>Единая среда. Не нужно учить паттерны разных программ — все действия работают по одному простому правилу</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-check">✓</span>
+          <span>Действия не требуют разбираться в меню: одна кнопка «Написать» сразу открывает нужный диалог</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-check">✓</span>
+          <span>Вы управляете удалённо: добавить контакт или изменить настройки можно со своего телефона</span>
+        </div>
+        <div class="feature-row">
+          <span class="icon-check">✓</span>
+          <span>Круг контактов задаёте вы. Незнакомые люди не появляются на экране сами по себе</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Что такое Babushka</p>
+      <div class="section-rule" style="background:var(--accent-light);"></div>
+      <h2>Не список приложений.<br>Люди и действия.</h2>
+      <p class="lead">Babushka создаёт стабильный мир на экране близкого человека. Мир, в котором нет программ — только те, кому можно позвонить или написать.</p>
+    </div>
+
+    <div class="solution-grid">
+      <div>
+        <div class="solution-feature">
+          <h3>Один экран — весь мир устройства</h3>
+          <p>Нет ящика приложений, нет случайных переходов в системные настройки. Нечего случайно «сломать» и нечему переучиваться.</p>
+        </div>
+        <div class="solution-feature">
+          <h3>Уведомления от людей, не от программ</h3>
+          <p>Вместо «3 уведомления от WhatsApp» — понятное сообщение от конкретного человека. Мышление строится вокруг людей, а не приложений.</p>
+        </div>
+        <div class="solution-feature">
+          <h3>Среда не меняется без вашего ведома</h3>
+          <p>Обновление ОС, новая версия приложения — это не затрагивает то, что видит близкий человек. Стабильность под контролем опекуна.</p>
+        </div>
+        <div class="solution-feature">
+          <h3>Устанавливается на существующий Android</h3>
+          <p>Не нужно покупать новый телефон, менять номер или SIM-карту. Babushka — оболочка поверх того устройства, которое уже есть.</p>
+        </div>
+      </div>
+
+      <div class="demo-stage">
+        <div class="demo-window">
+          <img class="concept-stage-image" src="Концепты/Home%20reminder.png" alt="Экран напоминаний и контактов в Babushka">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Как это работает</p>
+      <div class="section-rule"></div>
+      <h2>Один раз.<br>Навсегда.</h2>
+      <p class="lead">Разовая настройка — стабильный результат. Без повторных объяснений, без поездок «починить телефон».</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Установите на Android близкого человека</h3>
+          <p>Не нужен новый телефон. Babushka скачивается из Google Play на тот смартфон, который уже есть у вашего близкого.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Настройте один раз</h3>
+          <p>Через панель опекуна добавьте людей и действия: «Позвонить близкому», «Открыть сообщение», «Посмотреть фото». Это займёт 30–60 минут.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Объясните один раз</h3>
+          <p>Одного короткого объяснения достаточно: нажми на фото человека, которому хочешь позвонить или написать. Больше разбираться в меню не придётся.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Пользоваться телефоном снова спокойно</h3>
+          <p>Каждый день — тот же экран. Те же люди. Те же действия. Ничего не переезжает, ничего не исчезает.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>Вы управляете удалённо</h3>
+          <p>Добавить контакт, убрать действие, проверить заряд и баланс — всё из вашего телефона, в любой момент. Без поездки.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section id="screens">
+  <div class="container-wide">
+    <div class="section-head">
+      <p class="eyebrow">Интерфейс</p>
+      <div class="section-rule"></div>
+      <h2>Что видит близкий человек.<br>Что видите вы.</h2>
+    </div>
+
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="screen-visual">
+          <div class="screen-preview image-shot">
+            <img src="Концепты/Home%20list.png" alt="Список контактов на экране Babushka">
+          </div>
+        </div>
+        <div class="screen-info">
+          <h3>Есть и плитки, и простой список.</h3>
+          <p>Если список контактов читается легче, интерфейс можно сделать ещё проще: крупные имена и одно явное действие на человека.</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-visual">
+          <div class="screen-preview image-shot">
+            <img src="Концепты/Chat.png" alt="Чат в интерфейсе Babushka">
+          </div>
+        </div>
+        <div class="screen-info">
+          <h3>Сообщения тоже упрощены.</h3>
+          <p>В диалоге есть только то, что нужно: сообщение, кнопка «Прослушать» и понятное действие «Перезвонить».</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-visual">
+          <div class="screen-preview image-shot">
+            <img src="Концепты/Push%20incoming%20message.png" alt="Экран входящего сообщения в Babushka">
+          </div>
+        </div>
+        <div class="screen-info">
+          <h3>Уведомления приходят от людей.</h3>
+          <p>Не “1 новое сообщение в приложении”, а сообщение от конкретного человека — можно сразу открыть, прослушать или позвонить.</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-visual">
+          <div class="screen-preview image-shot">
+            <img src="Концепты/Caregiver%20screen.png" alt="Панель опекуна в Babushka">
+          </div>
+        </div>
+        <div class="screen-info">
+          <h3>Вы видите всё. Меняете что угодно — удалённо.</h3>
+          <p>Заряд, баланс, активность. Добавить контакт, изменить действия, убрать лишнее — экран близкого человека под вашим контролем.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Ценность</p>
+      <div class="section-rule"></div>
+      <h2>Уверенность для близкого человека.<br>Спокойствие для вас.</h2>
+    </div>
+
+    <div class="benefits-cols">
+      <div>
+        <p class="benefits-col-label">Для близкого человека</p>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <p>Каждый день видит знакомый экран — без сюрпризов после обновлений</p>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <p>Звонит и пишет самостоятельно, без чужой помощи</p>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <p>На связи в любой момент — чувствует себя уверенно, а не беспомощно</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="benefits-col-label">Для вас</p>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <p>Настроили один раз — работает стабильно и без сбоев</p>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <p>Управляете контактами и действиями удалённо, из своего телефона</p>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <p>Больше не нужно ехать через весь город, чтобы «починить телефон»</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOT -->
+<section id="not">
+  <div class="container-wide">
+    <div class="section-head">
+      <p class="eyebrow">Честно о продукте</p>
+      <div class="section-rule"></div>
+      <h2>Чем Babushka<br>не является</h2>
+    </div>
+
+    <div class="not-grid">
+      <div class="not-card">
+        <span class="not-tag">Не новый телефон</span>
+        <p>Устанавливается на тот Android, который уже есть. Менять устройство, SIM-карту или номер не нужно.</p>
+      </div>
+
+      <div class="not-card">
+        <span class="not-tag">Не мессенджер</span>
+        <p>Babushka не заменяет WhatsApp. Она создаёт оболочку поверх него — близкий человек видит людей, а не программы.</p>
+      </div>
+
+      <div class="not-card">
+        <span class="not-tag">Не тема оформления</span>
+        <p>Это не смена внешнего вида. Это другая модель взаимодействия: вместо выбора приложения — готовое действие.</p>
+      </div>
+
+      <div class="not-card">
+        <span class="not-tag">Не accessibility-режим</span>
+        <p>Встроенные режимы Android увеличивают шрифт, но сохраняют логику приложений и не защищены от изменений при обновлениях.</p>
+      </div>
+
+      <div class="not-card">
+        <span class="not-tag">Не большие иконки</span>
+        <p>Именно это делают обычные «лаунчеры для пожилых». Babushka убирает саму необходимость выбирать приложение.</p>
+      </div>
+
+      <div class="not-card">
+        <span class="not-tag">Не социальный проект</span>
+        <p>Это продукт с продуманной философией. Уважение к пожилому человеку — не маркетинг, а основа того, как устроена среда.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Частые вопросы</p>
+      <div class="section-rule"></div>
+      <h2>Ответы</h2>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Нужно ли покупать новый телефон?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Нет. Babushka устанавливается на тот Android-смартфон, который уже есть у вашего близкого. Менять устройство, номер или SIM-карту не нужно.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Что именно видит пожилой человек на экране?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Только то, что вы настроили: фотографии близких людей и кнопки действий под ними — «Позвонить», «Написать», «Открыть чат». Никаких иконок приложений, никакого ящика программ, никаких системных уведомлений.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Что происходит, когда Android или приложение обновляется?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Экран вашего близкого не меняется. Обновления операционной системы и приложений не затрагивают то, что он видит. Среда остаётся стабильной.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Могу ли я управлять телефоном удалённо?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Да. Через панель опекуна вы добавляете и убираете контакты, меняете набор действий, видите заряд аккумулятора и баланс — всё без физического доступа к телефону близкого.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Что если близкий случайно «сломает» настройки?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Настройки Babushka защищены PIN-кодом. Случайно изменить то, что вы настроили, не получится. Один экран, никаких скрытых вкладок — нечему «ломаться».</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Нужно ли пожилому человеку учиться новому?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Нет. Вы устанавливаете приложение один раз. Близкому нужно объяснить только одно: нажми на фото человека, которому хочешь позвонить или написать. Больше ничему учиться не придётся.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Сколько это стоит?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Подписка — около 300–500 ₽ в месяц. Первые 14 дней — бесплатно, с полным функционалом. Это существенно меньше, чем стоимость одной поездки «объяснить заново».</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Babushka заменяет WhatsApp или другие мессенджеры?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Нет. Babushka работает поверх существующих приложений. Близкий человек по-прежнему общается через те же каналы — просто видит не WhatsApp, а понятное действие вроде «Открыть сообщение».</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Что если нужно позвонить кому-то, кого нет в списке?
+          <div class="faq-chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#1A1714" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Круг контактов задаёт опекун. Если нужно добавить нового человека — вы делаете это удалённо, в несколько нажатий. Незнакомые контакты не появляются на экране сами по себе.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="blog">
+  <div class="container-wide">
+    <div class="section-head">
+      <p class="eyebrow">Фичи</p>
+      <div class="section-rule"></div>
+      <h2>Возможности, которые помогают<br>быть на связи спокойно</h2>
+    </div>
+
+    <div class="feature-grid" aria-label="Возможности Babushka">
+      <div class="feature-card">
+        <h3>Встроенный голосовой ассистент</h3>
+        <p>Одна фраза — одно действие: «Позвони дочери», «Напиши внуку», «Нужна помощь». Без поиска и лишних шагов.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Сообщения можно слушать</h3>
+        <p>Любое текстовое сообщение можно озвучить. Это выручает, когда зрение подводит или читать просто тяжело.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Напоминания от близких</h3>
+        <p>Спокойные напоминания о событиях или приёме лекарств прямо на главном экране — без сложных календарей и настроек.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Индикатор состояния связи</h3>
+        <p>Вы в любой момент видите заряд устройства и баланс SIM-карты прямо со своего телефона, не дёргая близкого.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta">
+  <div class="container">
+    <div class="final-cta-inner cta-panel">
+      <p class="eyebrow" style="color: var(--accent-light);">Начать</p>
+      <h2>Близкий человек заслуживает телефона, который не требует начинать сначала.</h2>
+      <p>Babushka не делает из смартфона игрушку. Она делает из него инструмент, которым можно пользоваться с уверенностью — каждый день, самостоятельно, без тревоги.</p>
+      <p style="margin-top: 0.75rem;">Вы настраиваете один раз. Дальше интерфейс остаётся понятным и стабильным.</p>
+      <div class="btn-group">
+        <a href="#" class="btn-primary" style="background: var(--accent-pale); color: var(--ink);">Попробовать бесплатно — 14 дней</a>
+        <a href="#how" class="btn-outline-light">Как это устроено</a>
+      </div>
+      <p class="microcopy">Без привязки карты. Скачивается из Google Play на существующий Android.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-logo">Babushka</p>
+  <p>© 2025 Babushka. Babushka — только важное.</p>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+
+</body>
+</html>
