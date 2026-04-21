@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Манифест — Babushka</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Geologica:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sand: #F5F0E8;
+    --ink: #1A1714;
+    --ink-mid: #3D3830;
+    --ink-muted: #6B6560;
+    --warm-white: #FDFAF5;
+    --accent: #7C5C3E;
+    --accent-light: #C4A882;
+    --border: rgba(26,23,20,0.12);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Geologica', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background:
+      radial-gradient(circle at top left, rgba(237,227,214,0.85), transparent 34%),
+      linear-gradient(180deg, #fffdf9 0%, var(--warm-white) 38%, #f8f2ea 100%);
+    color: var(--ink);
+    line-height: 1.75;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(253,250,245,0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-back {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink-mid);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(26,23,20,0.15);
+    padding-bottom: 1px;
+  }
+  .nav-back:hover { color: var(--accent); border-bottom-color: var(--accent-light); }
+
+  main {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 120px 2rem 80px;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 2.5rem;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-top: 2.75rem;
+    margin-bottom: 1rem;
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2.2vw, 22px);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-top: 1.75rem;
+    margin-bottom: 0.85rem;
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink-mid);
+    font-weight: 300;
+  }
+  p + p { margin-top: 1rem; }
+
+  em {
+    font-style: italic;
+    font-family: var(--serif);
+    color: var(--ink-mid);
+  }
+
+  strong { font-weight: 500; color: var(--ink); }
+
+  ul {
+    list-style: none;
+    margin-top: 1.25rem;
+  }
+  li {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-mid);
+    font-weight: 300;
+    padding: 0.85rem 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  li:last-child { border-bottom: none; }
+
+  footer {
+    background: var(--ink);
+    border-top: 0.5px solid rgba(253,250,245,0.1);
+    padding: 2rem;
+    text-align: center;
+  }
+  footer p {
+    font-size: 13px;
+    color: rgba(253,250,245,0.3);
+  }
+  footer .footer-logo {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: rgba(253,250,245,0.6);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  footer a {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 13px;
+    color: rgba(253,250,245,0.55);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(253,250,245,0.2);
+  }
+  footer a:hover {
+    color: rgba(253,250,245,0.9);
+    border-bottom-color: rgba(253,250,245,0.45);
+  }
+
+  @media (max-width: 520px) {
+    nav { padding: 0 1rem; height: 56px; }
+    main { padding: 108px 1.25rem 64px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Babushk<span>a</span></a>
+  <a href="index.html" class="nav-back">На главную</a>
+</nav>
+
+<main>
+  <h1>Мост длиннее реки</h1>
+
+  <h2>Интерфейс, как барьер</h2>
+  <p>Любое приложение задумывается как мост через реку. У пользователя есть мотивация и есть результат, к которому он хочет придти, но есть и барьер. Появляется интерфейс, который обещает создать мост через эту реку.</p>
+  <p>Но часто этот мост становится длиннее самой реки.</p>
+  <p>Цифровая оболочка, обещавшая быть прозрачной, сама становится преградой. Мост через ручеёк становится гигантским инженерным сооружением с платным проездом, светофорами и пробками.</p>
+  <p>Моя бабушка просто хотела написать: «Костя, приходи на ужин». Вместо этого она оказывалась в лабиринте: <em>Правая верхняя кнопка → Меню → Вправо → SMS → Круглая кнопка → Новое сообщение → Круглая кнопка → Выбрать адресата…</em> и т.д. Прежде чем проявить заботу о внуке, ей пришлось изучать чужую архитектуру, а мне — рисовать схемы на стикерах и объяснять, куда и когда нажимать (это почти не сработало).</p>
+  <p>Мой дед научился писать мне во ВКонтакте. Так продолжалось до первого обновления, которое изменило логику работы. Подобное происходит три-четыре раза в год: для разработчиков это минорные изменения, а дед злится, переучивается и старательно вписывает новый алгоритм в тетрадку.</p>
+  <p>Интерфейс сам стал рекой. А лучший интерфейс — это какой интерфейс?</p>
+
+  <h2>Зачем нужен телефон?</h2>
+  <p>Пожилой человек «нанимает» телефон не для того, чтобы «использовать мессенджер» или «осваивать операционную систему». Он нанимает его для выполнения единственной работы: <strong>связаться с конкретным человеком</strong>.</p>
+  <p>Проблема современных интерфейсов — в принуждении к чужой логике. Чтобы проявить любовь и заботу, пожилой человек должен сначала понять, как работает алгоритм-посредник. <strong>Эмоциональный акт превращается в технический процесс, требующий знания чужого мета-языка</strong>: навигации по меню, значений иконок и неочевидных паттернов.</p>
+  <p>Необходимо перейти к антропоцентричной модели донесения ценности. Технология должна подчиняться человеческой логике, а не заставлять человека учить машинную архитектуру.</p>
+
+  <h2>Ключевые конфликты, которые решает продукт</h2>
+  <ul>
+    <li><strong>Люди вместо приложений.</strong> Пожилые люди мыслят связями с людьми, а цифровая среда — программами (чтобы написать внуку, нужно найти иконку WhatsApp). Мы отделяем действие от программы-носителя.</li>
+    <li><strong>Действие вместо навигации.</strong> Стандартная ОС заставляет проходить лабиринт: <em>Меню → Приложение → Выбор адресата</em>. Мы сокращаем этот путь до одного шага: <em>Внук → «Написать»</em>. Это принципиально проще даже в сравнении с кнопочными телефонами, чья архитектура построена на паттернах из 90-х годов.</li>
+    <li><strong>Стабильность вместо постоянных обновлений.</strong> Операционные системы регулярно меняют пользовательские сценарии. Пожилому человеку нужна предсказуемая среда, которая не меняется без его согласия.</li>
+    <li><strong>Пользование вместо обслуживания.</strong> Пожилой человек не должен обслуживать свой телефон: чистить память, закрывать уведомления или настраивать VPN.</li>
+  </ul>
+
+  <h2>Основа концепции</h2>
+  <ul>
+    <li><strong>Интерфейс-невидимка (Нулевой барьер).</strong> Оболочка, которая стирает саму концепцию ОС, приложений и вложенных меню.</li>
+    <li><strong>Объект-человек.</strong> Кнопка на экране — это не ярлык программы, а репрезентация конкретного человека («Сын», «Внучка»).</li>
+    <li><strong>Делегирование сложности (Опекаемая система).</strong> Разделение на Потребителя (пожилой человек) и Опекуна (родственник). Опекун удаленно принимает на себя весь «цифровой удар»: настройки, обновления, управление контактами. Он выступает не как маскировщик сложности, а как <strong>архитектор автономии</strong>, оставляя пользователю только необходимые инструменты.</li>
+    <li><strong>Консервативная среда.</strong> Интерфейс фиксируется и остается неизменным, защищая выученные сценарии от корпоративных апдейтов.</li>
+  </ul>
+
+  <h2>Продукт: Babushka</h2>
+  <h3>Телефон как прозрачное окно</h3>
+  <p>Это не просто лаунчер с большими кнопками, а принципиально иной подход. Система деконструирует смартфон, превращая его из компьютера с программами в артефакт для связи с близкими.</p>
+  <p>Вся архитектурная сложность уходит «под капот» и управляется удалённым Опекуном. Пользователю остается только чистая, неизменная функция — список людей, с которыми можно совершать прямые действия без погружения в интерфейсный лабиринт.</p>
+
+  <h3>Роли в системе</h3>
+  <ul>
+    <li><strong>Освобожденный Пользователь (Бабушка).</strong> Главный герой. Для нее телефон перестает быть враждебной машиной, требующей заучивания алгоритмов и ведения тетрадок с инструкциями. Это «магическое стекло», где живут близкие. Она возвращает себе чувство контроля и собственного достоинства: просто нажимает на фотографию внука и говорит с ним.</li>
+    <li><strong>Защитник-Опекун (Внук).</strong> Тот, кто строит и поддерживает мост с другой стороны. Для него приложение — это пульт дистанционного управления комфортом близкого человека. Он берет на себя роль переводчика с цифрового на человеческий, защищая старшее поколение от хаоса технологий и избавляясь от чувства вины за их дискомфорт.</li>
+  </ul>
+</main>
+
+<footer>
+  <p class="footer-logo">Babushka</p>
+  <p>© 2025 Babushka. Манифест.</p>
+  <a href="index.html">На главную</a>
+</footer>
+
+</body>
+</html>
